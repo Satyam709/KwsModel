@@ -155,12 +155,11 @@ RUN pip install --no-cache-dir \
         fastapi \
         uvicorn \
     && rm -rf /root/.cache
-    
+
 RUN pip install --upgrade typing_extensions
 
 # Copy FastAPI application code
-WORKDIR /app
-
+WORKDIR /multilingual_kws
 # Expose the port that FastAPI will run on
 EXPOSE 8000
 
