@@ -99,6 +99,7 @@
 FROM tensorflow/tensorflow:2.7.0-gpu AS base
 
 # Install system dependencies and Python packages
+RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys A4B469963BF863CC
 RUN apt-get update && \
     apt-get install -y \
         fontconfig \
