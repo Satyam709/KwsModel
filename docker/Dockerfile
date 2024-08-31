@@ -21,10 +21,12 @@ FROM tensorflow/tensorflow:2.7.0-gpu
 
 # switch to bash within the container
 
-RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys A4B469963BF863CC
+
 
 ENV SHELL /bin/bash
 SHELL ["/bin/bash", "-c"]
+
+RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys A4B469963BF863CC
 
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt update \
@@ -78,12 +80,14 @@ CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
 
 
 # RUN echo "alpha-0.0.0"
-RUN git clone https://github.com/harvard-edge/multilingual_kws /multilingual_kws
+RUN git clone https://github.com/Satyam709/KwsModel /multilingual_kws
+
 WORKDIR /multilingual_kws
+
 RUN wget https://github.com/harvard-edge/multilingual_kws/releases/download/v0.1-alpha/multilingual_context_73_0.8011.tar.gz && \
     tar xf multilingual_context_73_0.8011.tar.gz
 RUN wget https://github.com/harvard-edge/multilingual_kws/releases/download/v0.1-alpha/unknown_files.tar.gz && \
     tar xf unknown_files.tar.gz
 RUN chmod -R 777 /multilingual_kws/visualizer/
 
-ENTRYPOINT ["python", "-m", "multilingual_kws.run"]
+ENTRYPOINT ["bash"]
