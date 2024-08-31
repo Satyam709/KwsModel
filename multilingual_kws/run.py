@@ -93,7 +93,7 @@ def inference(
             target_keyword=keyword,
             detection_thresholds=[detection_threshold],
             average_window_duration_ms=100,
-            suppression_ms=500,
+            suppression_ms=100,
             time_tolerance_ms=750,  # only used when graphing
             max_chunk_length_sec=inference_chunk_len_seconds,
         )
@@ -145,6 +145,8 @@ def inference(
         detections=detections_with_confidence,
         min_threshold=detection_threshold,
     )
+    
+    print("Detections\n",detections)
 
     # write detections to json
     if write_detections is not None:
@@ -293,9 +295,11 @@ def train(
         model_settings=model_settings,
         base_model_path=embedding,
         base_model_output=base_model_output,
+        bg_datadir=background_noise,
         UNKNOWN_PERCENTAGE=unknown_percentage,
         csvlog_dest=None,
     )
+    
     print(f"saving model to {output}")
     model.save(output)
 
