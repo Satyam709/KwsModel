@@ -162,11 +162,11 @@ RUN pip install --upgrade typing_extensions
 # Copy FastAPI application code
 WORKDIR /multilingual_kws
 # Expose the port that FastAPI will run on
-EXPOSE 8000
+EXPOSE 8080
 
 # Copy the FastAPI application files into the container
 
 # Run FastAPI application with uvicorn
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080"]
 
 # You can optionally install other Python dependencies or setup as needed
