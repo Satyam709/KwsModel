@@ -147,6 +147,7 @@ ENV LANGUAGE en_US.UTF-8
 RUN pip install --no-cache-dir \
         dataclasses \
         sox \
+        python-multipart \
         matplotlib \
         seaborn \
         pandas \
