@@ -135,6 +135,7 @@ RUN wget https://github.com/harvard-edge/multilingual_kws/releases/download/v0.1
     tar xf unknown_files.tar.gz
 RUN chmod -R 777 /multilingual_kws/visualizer/
 
+WORKDIR /multilingual_kws
 
 # Set locale
 RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
@@ -160,10 +161,10 @@ RUN pip install --no-cache-dir \
 RUN pip install --upgrade typing_extensions
 
 # Copy FastAPI application code
-WORKDIR /multilingual_kws
+
 # Expose the port that FastAPI will run on
 
-WORKDIR /app
+WORKDIR /multilingual_kws/app
 
 EXPOSE 8080
 
