@@ -155,6 +155,8 @@ RUN pip install --no-cache-dir \
         fastapi \
         uvicorn \
     && rm -rf /root/.cache
+    
+RUN pip install --upgrade typing_extensions
 
 # Copy FastAPI application code
 WORKDIR /app
