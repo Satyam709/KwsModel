@@ -129,6 +129,8 @@ RUN apt-get update && \
 
 RUN git clone https://github.com/Satyam709/KwsModel /multilingual_kws
 
+WORKDIR /multilingual_kws
+
 RUN wget https://github.com/harvard-edge/multilingual_kws/releases/download/v0.1-alpha/multilingual_context_73_0.8011.tar.gz && \
     tar xf multilingual_context_73_0.8011.tar.gz
 RUN wget https://github.com/harvard-edge/multilingual_kws/releases/download/v0.1-alpha/unknown_files.tar.gz && \
@@ -165,7 +167,6 @@ RUN pip install --upgrade typing_extensions
 # Set working directory for FastAPI application
 
 # Copy FastAPI application files into the container
-WORKDIR /multilingual_kws
 # Expose the port that FastAPI will run on
 EXPOSE 8080
 
