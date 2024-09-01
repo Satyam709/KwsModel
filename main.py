@@ -102,7 +102,7 @@ async def infer(
     result = run.inference(
         keywords = word,
         modelpaths = f"/multilingual_kws/output/{word}",
-        wav="/multilingual_kws/additional_audio",
+        wav=f"/multilingual_kws/{additional_file_path}",
         detection_threshold = threshold
     )
     
