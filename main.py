@@ -59,14 +59,20 @@ async def store_audio_files(
     contents = os.listdir()
     
     
-    out_dir = Path(f"output/{word}")
+    out_dir = Path(f"./output/{word}")
     out_dir.mkdir(parents=True, exist_ok=True)
     
     
     print(f"Training on {word}: \n")
     
+    print("MODEL :")
+    os.chdir(f"./output/{word}")
+    contents = os.listdir()
+    
+    print(contents)
+    
    
-    run.test(
+    run.train(
         keyword = word,
         samples_dir = "./audio_files",
         embedding = "/multilingual_context_73_0.8011/",
