@@ -162,11 +162,16 @@ RUN pip install --upgrade typing_extensions
 
 # Expose the port that FastAPI will run on
 
+# Set working directory for FastAPI application
+WORKDIR /app
+
+# Copy FastAPI application files into the container
+COPY ./app /app
+
+# Expose the port that FastAPI will run on
 EXPOSE 8080
 
-# Copy the FastAPI application files into the container
-
 # Run FastAPI application with uvicorn
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8080"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080"]
 
 # You can optionally install other Python dependencies or setup as needed
