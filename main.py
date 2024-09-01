@@ -57,7 +57,7 @@ async def store_audio_files(
 
     os.chdir("./audio_files")
     contents = os.listdir()
-    
+    print(contents)
     
     out_dir = Path(f"./output/{word}")
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -67,9 +67,9 @@ async def store_audio_files(
     
     print("MODEL :")
     os.chdir(f"./output/{word}")
-    contents = os.listdir()
     
-    print(contents)
+    
+    
     
    
     run.train(
@@ -78,7 +78,7 @@ async def store_audio_files(
         embedding = "/multilingual_context_73_0.8011/",
         unknown_words = "/mnt/sharedFiles/content/unknown_files",
         background_noise = "/mnt/sharedFiles/content/speech_commands/_background_noise_",
-        output_path = f"./output/{word}"
+        output = f"./output/{word}"
     )
     
     print("trained")
