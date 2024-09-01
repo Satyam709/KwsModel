@@ -2,6 +2,7 @@ from fastapi import FastAPI, File, UploadFile, HTTPException
 from pathlib import Path
 import shutil
 from typing import List
+import os
 
 app = FastAPI()
 
@@ -50,10 +51,12 @@ async def store_audio_files(
     except Exception as e:
         return {"error": f"Failed to store additional file: {str(e)}"}
 
+    os.chdir("./audio_files")
+    contents = os.listdir()
 
-    
+
     return {
-        "message": "Audio files stored successfully!",
+        "message": f"Audio files stored successfully {contents}!",
         "stored_files": file_names,
         "additional_file": additional_file_name
     }
