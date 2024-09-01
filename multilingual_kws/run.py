@@ -146,7 +146,7 @@ def inference(
         min_threshold=detection_threshold,
     )
     
-    print("Detections\n",detections)
+    return detections
 
     # write detections to json
     if write_detections is not None:

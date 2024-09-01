@@ -11,11 +11,10 @@ app = FastAPI()
 def hello():
     return 'hello world'
 
-@app.post("/store_audio_files")
+@app.post("/train")
 async def store_audio_files(
     word:str,
-    input_files: List[UploadFile] = File(...),
-    additional_file: UploadFile = File(...)
+    input_files: List[UploadFile] = File(...)
 ):
     if len(input_files) != 5:
         raise HTTPException(status_code=400, detail="Exactly 5 files are required for the first directory")
@@ -43,18 +42,6 @@ async def store_audio_files(
     additional_audio_dir = Path("additional_audio")
     additional_audio_dir.mkdir(parents=True, exist_ok=True)
 
-    # Create a new file name for the additional audio file
-    additional_file_name = f"additional_{additional_file.filename}"
-    additional_file_path = additional_audio_dir / additional_file_name
-
-    # Copy the additional audio file to the new file
-    try:
-        # Write the additional file to a new file
-        with open(additional_file_path, "wb") as additional_file_obj:
-            shutil.copyfileobj(additional_file.file, additional_file_obj)
-    except Exception as e:
-        return {"error": f"Failed to store additional file: {str(e)}"}
-
     os.chdir("./audio_files")
     contents = os.listdir()
     print(contents)
@@ -69,9 +56,6 @@ async def store_audio_files(
     os.chdir(f"./output/{word}")
     
     
-    
-    
-   
     run.train(
         keyword = word,
         samples_dir = "/multilingual_kws/audio_files",
@@ -84,7 +68,44 @@ async def store_audio_files(
     print("trained")
     
     return {
-        "message": f"Audio files stored successfully {contents}!",
+        "message": "Audio files stored successfully!",
+        "content": contents,
         "stored_files": file_names,
-        "additional_file": additional_file_name
+    }
+
+
+
+@app.post("/inference")
+async def infer(
+    word:str,
+    threshold: float,
+    additional_file: UploadFile = File(...),
+):  
+    
+    # Directory to store the additional audio file
+    additional_audio_dir = Path("additional_audio")
+    additional_audio_dir.mkdir(parents=True, exist_ok=True)
+
+    # Create a new file name for the additional audio file
+    additional_file_name = f"additional_{additional_file.filename}"
+    additional_file_path = additional_audio_dir / additional_file_name
+
+    # Copy the additional audio file to the new file
+    try:
+        # Write the additional file to a new file
+        with open(additional_file_path, "wb") as additional_file_obj:
+            shutil.copyfileobj(additional_file.file, additional_file_obj)
+    except Exception as e:
+        return {"error": f"Failed to store additional file: {str(e)}"}
+    
+   
+    result = run.inference(
+        keywords = word,
+        modelpaths = f"/multilingual_kws/output/{word}",
+        wav="/multilingual_kws/additional_audio",
+        detection_threshold = threshold
+    )
+    
+    return {
+        "detections":result
     }
