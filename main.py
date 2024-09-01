@@ -76,7 +76,7 @@ async def store_audio_files(
         keyword = word,
         samples_dir = "/multilingual_kws/audio_files",
         embedding = "/multilingual_context_73_0.8011/",
-        unknown_words = "/mnt/sharedFiles/content/unknown_files",
+        unknown_words = "/",
         background_noise = "/mnt/sharedFiles/content/speech_commands/_background_noise_",
         output = f"/multilingual_kws/output/{word}"
     )
