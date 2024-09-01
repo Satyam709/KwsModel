@@ -166,7 +166,7 @@ RUN pip install --upgrade typing_extensions
 # Expose the port that FastAPI will run 
 # Copy FastAPI application files into the container
 # Expose the port that FastAPI will run on
-WORKDIR /multilingual_kws/app
+WORKDIR /multilingual_kws
 
 EXPOSE 8080
 
