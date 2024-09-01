@@ -3,6 +3,7 @@ from pathlib import Path
 import shutil
 from typing import List
 import os
+from multilingual_kws import run
 
 app = FastAPI()
 
@@ -12,6 +13,7 @@ def hello():
 
 @app.post("/store_audio_files")
 async def store_audio_files(
+    word:str,
     input_files: List[UploadFile] = File(...),
     additional_file: UploadFile = File(...)
 ):
@@ -20,7 +22,9 @@ async def store_audio_files(
     # Directory to store the 5 audio files
     audio_files_dir = Path("audio_files")
     audio_files_dir.mkdir(parents=True, exist_ok=True)
-
+    
+    
+    
     file_names = []
     for input_file in input_files:
         # Create a new file name for the stored audio file
@@ -53,8 +57,26 @@ async def store_audio_files(
 
     os.chdir("./audio_files")
     contents = os.listdir()
-
-
+    
+    
+    out_dir = Path(f"output/{word}")
+    out_dir.mkdir(parents=True, exist_ok=True)
+    
+    
+    print(f"Training on {word}: \n")
+    
+   
+    run.test(
+        keyword = word,
+        samples_dir = "./audio_files",
+        embedding = "/multilingual_context_73_0.8011/",
+        unknown_words = "/mnt/sharedFiles/content/unknown_files",
+        background_noise = "/mnt/sharedFiles/content/speech_commands/_background_noise_",
+        output_path = f"./output/{word}"
+    )
+    
+    print("trained")
+    
     return {
         "message": f"Audio files stored successfully {contents}!",
         "stored_files": file_names,

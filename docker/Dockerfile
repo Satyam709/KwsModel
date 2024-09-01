@@ -126,13 +126,16 @@ RUN apt-get update && \
         vim \
     && rm -rf /var/lib/apt/lists/*
 
-
 RUN git clone https://github.com/Satyam709/KwsModel /multilingual_kws
 
 RUN wget https://github.com/harvard-edge/multilingual_kws/releases/download/v0.1-alpha/multilingual_context_73_0.8011.tar.gz && \
     tar xf multilingual_context_73_0.8011.tar.gz 
 RUN wget https://github.com/harvard-edge/multilingual_kws/releases/download/v0.1-alpha/unknown_files.tar.gz && \
     tar xf unknown_files.tar.gz
+
+
+
+
 RUN chmod -R 777 /multilingual_kws/visualizer/
 
 # Set locale
