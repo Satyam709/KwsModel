@@ -1,14 +1,13 @@
-from fastapi import FastAPI
-
-print("hello")
+from fastapi import FastAPI, File, UploadFile, HTTPException
+from pathlib import Path
+import shutil
+from typing import List
 
 app = FastAPI()
 
 @app.get('/')
 def hello():
-    print("hello")
     return {'message': 'hello world'}
-
 
 @app.post("/store_audio_files")
 async def store_audio_files(
