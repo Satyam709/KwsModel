@@ -7,7 +7,7 @@ app = FastAPI()
 
 @app.get('/')
 def hello():
-    return {'message': 'hello world'}
+    return 'hello world'
 
 @app.post("/store_audio_files")
 async def store_audio_files(
@@ -16,7 +16,6 @@ async def store_audio_files(
 ):
     if len(input_files) != 5:
         raise HTTPException(status_code=400, detail="Exactly 5 files are required for the first directory")
-
     # Directory to store the 5 audio files
     audio_files_dir = Path("audio_files")
     audio_files_dir.mkdir(parents=True, exist_ok=True)
@@ -33,6 +32,7 @@ async def store_audio_files(
                 shutil.copyfileobj(input_file_obj, output_file_obj)
 
         file_names.append(output_file_name)
+        
     
     # Directory to store the additional audio file
     additional_audio_dir = Path("additional_audio")
@@ -43,10 +43,15 @@ async def store_audio_files(
     additional_file_path = additional_audio_dir / additional_file_name
 
     # Copy the additional audio file to the new file
-    with additional_file.file as additional_file_obj:
+    try:
+        # Write the additional file to a new file
         with open(additional_file_path, "wb") as additional_file_obj:
-            shutil.copyfileobj(additional_file_obj, additional_file_obj)
+            shutil.copyfileobj(additional_file.file, additional_file_obj)
+    except Exception as e:
+        return {"error": f"Failed to store additional file: {str(e)}"}
 
+
+    
     return {
         "message": "Audio files stored successfully!",
         "stored_files": file_names,
